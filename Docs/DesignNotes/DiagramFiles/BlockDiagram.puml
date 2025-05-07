@@ -1,0 +1,39 @@
+@startuml
+title PCB Block Diagram with Power and Connectors
+
+package "PCB" {
+
+    [STM32G4\n(MCU)] as MCU
+    [DRV8316\n(Motor Driver)] as Driver
+    [MT6701\n(Encoder)] as Encoder
+    [CA-IF1043\n(CAN Transceiver)] as CAN
+
+    ' External connectors
+    [JST PH\nCAN1 Connector] as CAN1
+    [JST PH\nCAN2 Connector] as CAN2
+    [JST PH\nSPI Connector] as SPI_CONN
+    [WAGO 3-pin\nMotor Phases] as WAGO_BLDC
+    [WAGO 2-pin\nMotor Power] as WAGO_PWR
+    [USB-C\n(STM32 Access)] as USB_C
+
+    ' Power section
+    [3.3V Power\n AMS1117 \n(Regulated)] as POWER_3V3
+    USB_C --> POWER_3V3 : 5V Input
+    Driver --> POWER_3V3 : Buck Output
+
+
+    ' Internal data connections
+    MCU <--> Driver : SPI
+    MCU <-- Encoder : SPI
+    MCU <--> CAN : CAN TX/RX
+    MCU <--> USB_C : USB
+
+    ' Connectors to external
+    CAN --> CAN1 : CAN_H / CAN_L
+    CAN1 <--> CAN2 : Daisy Chain
+    MCU --> SPI_CONN : SPI Bus (MISO/MOSI/SCK)
+    Driver --> WAGO_BLDC : A / B / C
+    Driver --> WAGO_PWR : VM / GND
+}
+
+@enduml
