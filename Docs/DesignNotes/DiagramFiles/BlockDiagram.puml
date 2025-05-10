@@ -11,9 +11,7 @@ package "PCB" {
     ' External connectors
     [JST PH\nCAN1 Connector] as CAN1
     [JST PH\nCAN2 Connector] as CAN2
-    [JST PH\nSPI Connector] as SPI_CONN
-    [WAGO 3-pin\nMotor Phases] as WAGO_BLDC
-    [WAGO 2-pin\nMotor Power] as WAGO_PWR
+    [WAGO 5-pin\nMotor Phases] as WAGO_BLDC
     [USB-C\n(STM32 Access)] as USB_C
 
     ' Power section
@@ -31,9 +29,7 @@ package "PCB" {
     ' Connectors to external
     CAN --> CAN1 : CAN_H / CAN_L
     CAN1 <--> CAN2 : Daisy Chain
-    MCU --> SPI_CONN : SPI Bus (MISO/MOSI/SCK)
-    Driver --> WAGO_BLDC : A / B / C
-    Driver --> WAGO_PWR : VM / GND
+    Driver --> WAGO_BLDC : VM / A / B / C / GND
 }
 
 @enduml
